@@ -1,0 +1,44 @@
+////Powered by Ak1ne
+
+
+///Программа для считывания кол-ва файлов и дочерних файлов по заданному пути.
+
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        string targetDirectory = @"C:\Program Files (x86)\Microsoft Visual Studio";
+
+        int fileCount = CountFilesInDirectory(targetDirectory);
+
+        Console.WriteLine($"Общее кол-во файлов: {fileCount}");
+    }
+
+    static int CountFilesInDirectory(string directoryPath)
+    {
+        int fileCount = 0;
+
+        try
+        {
+            string[] files = Directory.GetFiles(directoryPath);
+
+            fileCount += files.Length;
+
+            string[] subdirectories = Directory.GetDirectories(directoryPath);
+            foreach (string subdirectory in subdirectories)
+            {
+                fileCount += CountFilesInDirectory(subdirectory);
+            }
+//// Powered by Ak1ne
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error:( - {e.Message}");
+        }
+
+        return fileCount;
+    }
+}
